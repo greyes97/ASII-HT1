@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>AntiguaBurger</title>
+</head>
+<style>
+    body{
+        background:#eee;
+        margin-top:20px;}
+
+    /* ===== PRICING PAGE ===== */
+    .price-tabs {
+        background-color: #fff;
+        -webkit-box-shadow: 0 5px 20px 0 rgba(39, 39, 39, 0.1);
+        box-shadow: 0 5px 20px 0 rgba(39, 39, 39, 0.1);
+        display: inline-block;
+        padding: 7px;
+        border-radius: 40px;
+        border: 1px solid #00b5ec;
+        margin-bottom: 45px;
+    }
+
+    @media (min-width: 768px) {
+        .price-tabs {
+            margin-bottom: 60px;
+        }
+    }
+
+    .price-tabs .nav-link {
+        color: #a1c7d4;
+        font-weight: 500;
+        font-family: "Montserrat", sans-serif;
+        font-size: 16px;
+        padding: 12px 35px;
+        display: inline-block;
+        text-transform: capitalize;
+        border-radius: 40px;
+        -webkit-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }
+
+    @media (min-width: 768px) {
+        .price-tabs .nav-link {
+            padding: 12px 40px;
+        }
+    }
+
+    .price-tabs .nav-link.active {
+        background-color: #00b5ec;
+        color: #fff;
+    }
+
+    .price-item {
+        background-color: #fff;
+        -webkit-box-shadow: 0 5px 30px 0 rgba(39, 39, 39, 0.15);
+        box-shadow: 0 5px 30px 0 rgba(39, 39, 39, 0.15);
+        border-radius: 10px;
+    }
+
+    @media (min-width: 768px) {
+        .price-item {
+            margin: 0 20px;
+            padding-top: 20px;
+        }
+    }
+
+    .price-item .price-top {
+        -webkit-box-shadow: 0 5px 30px 0 rgba(39, 39, 39, 0.15);
+        box-shadow: 0 5px 30px 0 rgba(39, 39, 39, 0.15);
+        padding: 50px 0 25px;
+        background-color: #00b5ec;
+        border-radius: 10px;
+        position: relative;
+        z-index: 0;
+        margin-bottom: 33px;
+    }
+
+    @media (min-width: 768px) {
+        .price-item .price-top {
+            margin: 0 -20px;
+            border-radius: 20px;
+        }
+    }
+
+    .price-item .price-top:after {
+        height: 50px;
+        width: 100%;
+        border-radius: 0 0 10px 10px;
+        background-color: #00b5ec;
+        position: absolute;
+        content: '';
+        left: 0;
+        bottom: -17px;
+        z-index: -1;
+        -webkit-transform: skewY(5deg);
+        transform: skewY(5deg);
+        -webkit-box-shadow: 0 5px 10px 0 rgba(113, 113, 113, 0.15);
+        box-shadow: 0 5px 10px 0 rgba(113, 113, 113, 0.15);
+    }
+
+    @media (min-width: 768px) {
+        .price-item .price-top:after {
+            border-radius: 0 0 20px 20px;
+        }
+    }
+
+    .price-item .price-top * {
+        color: #fff;
+    }
+
+    .price-item .price-top h2 {
+        font-weight: 700;
+    }
+
+    .price-item .price-top h2 sup {
+        top: 13px;
+        left: -5px;
+        font-size: 0.35em;
+        font-weight: 500;
+        vertical-align: top;
+    }
+
+    .price-item .price-content {
+        padding: 30px;
+        padding-bottom: 40px;
+    }
+
+    .price-item .price-content li {
+        position: relative;
+        margin-bottom: 15px;
+        margin-left: 10px;
+        margin-right: 10px;
+        text-align: center;
+    }
+
+    @media (min-width: 992px) {
+        .price-item .price-content li {
+            padding-left: 28px;
+            text-align: left;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .price-item .price-content li i {
+            position: absolute;
+            left: 0;
+            top: 3px;
+        }
+    }
+
+    .price-item .price-content .zmdi-check {
+        color: #28a745;
+    }
+
+    .price-item .price-content .zmdi-close {
+        color: #f00;
+    }
+
+    .popular {
+        background-color: #00b5ec;
+    }
+
+    .popular .price-top {
+        background-color: #fff;
+    }
+
+    .popular .price-top:after {
+        background-color: #fff;
+    }
+
+    .popular .price-top h4 {
+        color: #101f41;
+    }
+
+    .popular .price-top h2, .popular .price-top span, .popular .price-top sup {
+        color: #00b5ec;
+    }
+
+    .popular .price-content ul *,
+    .popular .price-content ul .zmdi-close, .popular .price-content ul .zmdi-check {
+        color: #fff !important;
+    }
+
+</style>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light scrolling-navbar fixed-top">
+    <a class="navbar-brand" href="#">
+        <img src="https://image.flaticon.com/icons/svg/2922/2922037.svg" width="35" height="35" class="d-inline-block align-top" alt="">
+        AntiguaBurger
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Facturas <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">App</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Contacto
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Tutoriales</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Usuario</span>
+                    <span class="input-group-text"><strong th:text="${nameCashier}"></strong></span>
+                </div>
+            </div>
+        </form>
+    </div>
+</nav>
+
+<main class="mt-5 pt-5">
+
+<div class="container">
+    <div class="text-center">
+        <div class="nav price-tabs" role="tablist">
+            <a class="nav-link active" href="#desayuno" role="tab" data-toggle="tab">Desayuno</a>
+            <a class="nav-link" href="#almuerzo" role="tab" data-toggle="tab">Almuerzo</a>
+            <a class="nav-link" href="#cena" role="tab" data-toggle="tab">Cena</a>
+        </div>
+    </div>
+    <div class="tab-content wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+
+        <div role="tabpanel" class="tab-pane fade show active" id="desayuno">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4 mb-30">
+                    <div class="price-item text-center">
+                        <div class="price-top">
+                            <img src="https://www.dietdoctor.com/es/wp-content/uploads/2019/12/Desayuno-keto-con-huevos-tomate-y-queso-v.jpg" class="card-img-top"
+                                 alt="">
+                            <h4>Desayuno 1</h4>
+                            <h2 class="mb-0"><sup>Q</sup>25.00</h2>
+                        </div>
+                        <div class="price-content">
+                            <ul class="border-bottom mb-30 mt-md-4 pb-3 text-left">
+                                <li th:each="lista : ${combo1}" >
+                                    <i class="zmdi zmdi-check mr-2"></i>
+                                    <span class="c-black" th:text="${lista}"></span>
+                                </li>
+                            </ul>
+                            <form method="post" th:action="@{/factura}"  name="menu1">
+                                <h1>Alternativas</h1>
+                                <input name="combo" type="hidden" value="Desayuno 1">
+                                <strong>Huevos</strong><br>
+                                <select class="form-control" id="alt_huevos" name="alt_huevos" >
+                                    <option value="Omelette">Omelette</option>
+                                    <option value="Revueltos">Revueltos</option>
+                                    <option value="Estrellados">Estrellados</option>
+                                </select>
+                                <strong>Frijoles</strong><br>
+                                <select class="form-control" id="alt_frijoles" name="alt_frijoles">
+                                    <option>Parados</option>
+                                    <option>Volteados</option>
+                                </select>
+                                <strong>Platanos</strong><br>
+                                <select class="form-control" id="alt_platanos" name="alt_platanos">
+                                    <option>Fritos</option>
+                                    <option>Cocidos</option>
+                                </select>
+                                <strong>Pan</strong><br>
+                                <select class="form-control" id="alt_pan" name="alt_pan">
+                                    <option>Blanco</option>
+                                    <option>Integral</option>
+                                </select>
+                                <strong>Bebida</strong><br>
+                                <select class="form-control" id="alt_bebida" name="alt_bebida">
+                                    <option>Cafe</option>
+                                    <option>Te</option>
+                                    <option>Jugo de naranja</option>
+                                </select>
+                                <h1>Extras</h1>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Huevos</span>
+                                        <span class="input-group-text" >Q1.00</span>
+                                    </div>
+                                    <select class="form-control" id="extra_huevos" name="extra_huevos">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Frijoles</span>
+                                        <span class="input-group-text" >Q4.00</span>
+                                    </div>
+                                    <select class="form-control" id="extra_frijoles" name="extra_frijoles">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Platanos</span>
+                                        <span class="input-group-text" >Q4.00</span>
+                                    </div>
+                                    <select class="form-control" id="extra_platanos" name="extra_platanos">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Crema</span>
+                                        <span class="input-group-text" >Q2.00</span>
+                                    </div>
+                                    <select class="form-control" id="extra_crema" name="extra_crema">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Queso</span>
+                                        <span class="input-group-text" >Q2.00</span>
+                                    </div>
+                                    <select class="form-control" id="extra_queso" name="extra_queso">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Pan</span>
+                                        <span class="input-group-text" >Q4.00</span>
+                                    </div>
+                                    <select class="form-control" id="extra_pan" name="extra_pan">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Tortillas</span>
+                                        <span class="input-group-text" >Q5.00</span>
+                                    </div>
+                                    <select class="form-control" id="extra_tortillas" name="extra_tortillas">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Fruta</span>
+                                        <span class="input-group-text" >Q8.00</span>
+                                    </div>
+                                    <select class="form-control" id="extra_fruta" name="extra_fruta">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Jugo Na.</span>
+                                        <span class="input-group-text" >Q6.00</span>
+                                    </div>
+                                    <select class="form-control" id="extra_jugon" name="extra_jugon">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Cliente</div>
+                                        </div>
+                                        <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Customer" name="text_customer" required>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Nit</div>
+                                        </div>
+                                        <input type="number" class="form-control"  placeholder="00000" name="text_taxId" required>
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="Generar Orden">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-30">
+                    <div class="price-item text-center popular">
+                        <div class="price-top">
+                            <img src="https://danzadefogones.com/wp-content/uploads/2017/05/Gachas-de-avena-porridge-3.jpg" class="card-img-top"
+                                 alt="">
+                            <h4>Desayuno 2</h4>
+                            <h2 class="mb-0"><sup>Q</sup>18</h2>
+                        </div>
+                        <div class="price-content">
+                            <ul class="border-bottom mb-30 mt-md-4 pb-3 text-left">
+                                <li th:each="lista : ${combo2}" >
+                                    <i class="zmdi zmdi-check mr-2"></i>
+                                    <span class="c-black" th:text="${lista}"></span>
+                                </li>
+                            </ul>
+                            <form method="post" th:action="@{/factura}"  name="menu2">
+                                <h1>Alternativas</h1>
+                                <input name="combo" type="hidden" value="Desayuno 2">
+                                <strong>Bebida</strong><br>
+                                <select class="form-control" name="alt_bebida">
+                                    <option>Cafe</option>
+                                    <option>Te</option>
+                                    <option>Jugo de naranja</option>
+                                </select>
+                                <h1>Extras</h1>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Fruta</span>
+                                        <span class="input-group-text" >Q8.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_fruta">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Jugo Na.</span>
+                                        <span class="input-group-text" >Q6.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_jugon">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Cliente</div>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Customer" name="text_customer" required>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Nit</div>
+                                        </div>
+                                        <input type="number" class="form-control"  placeholder="00000" name="text_taxId" required>
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="Generar Orden">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-30">
+                    <div class="price-item text-center">
+                        <div class="price-top">
+                            <img src="https://static.diariofemenino.com/media/1164/c/desayunos-con-avena-para-perder-peso-5-recetas-saludables-lg.jpg" class="card-img-top"
+                                 alt="">
+                            <h4>Desayuno 3</h4>
+                            <h2 class="mb-0"><sup>Q</sup>20</h2>
+                        </div>
+                        <div class="price-content">
+                            <ul class="border-bottom mb-30 mt-md-4 pb-3 text-left">
+                                <li th:each="lista : ${combo3}" >
+                                    <i class="zmdi zmdi-check mr-2"></i>
+                                    <span class="c-black" th:text="${lista}"></span>
+                                </li>
+                            </ul>
+                            <form method="post" th:action="@{/factura}"  name="menu3">
+                                <h1>Alternativas</h1>
+                                <input name="combo" type="hidden" value="Desayuno 3">
+                                <strong>Bebida</strong><br>
+                                <select class="form-control" name="alt_bebida">
+                                    <option>Cafe</option>
+                                    <option>Te</option>
+                                    <option>Jugo de naranja</option>
+                                </select>
+                                <h1>Extras</h1>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Fruta</span>
+                                        <span class="input-group-text" >Q8.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_fruta">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Jugo Na.</span>
+                                        <span class="input-group-text" >Q6.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_jugon">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Cliente</div>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Customer" name="text_customer" required>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Nit</div>
+                                        </div>
+                                        <input type="number" class="form-control"  placeholder="00000" name="text_taxId" required>
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="Generar Orden">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="almuerzo">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4 mb-30">
+                    <div class="price-item text-center">
+                        <div class="price-top">
+                            <img src="https://noticiaaldia.com/wp-content/uploads/2016/11/maxresdefault.jpg" class="card-img-top"
+                                 alt="">
+                            <h4>Almuerzo 1</h4>
+                            <h2 class="mb-0"><sup>Q</sup>30</h2>
+                        </div>
+                        <div class="price-content">
+                            <ul class="border-bottom mb-30 mt-md-4 pb-3 text-left">
+                                <li th:each="lista : ${combo4}" >
+                                    <i class="zmdi zmdi-check mr-2"></i>
+                                    <span class="c-black" th:text="${lista}"></span>
+                                </li>
+                            </ul>
+                            <form method="post" th:action="@{/factura}"  name="menu3">
+                                <h1>Alternativas</h1>
+                                <input name="combo" type="hidden" value="Almuerzo 1">
+                                <strong>Papas</strong><br>
+                                <select class="form-control" name="alt_papas">
+                                    <option>Fritas</option>
+                                    <option>Al vapor</option>
+                                    <option>Horneadas</option>
+                                </select>
+                                <strong>Bebida</strong><br>
+                                <select class="form-control" name="alt_bebida">
+                                    <option>Gaseosa</option>
+                                    <option>Te frio</option>
+                                    <option>Agua pura</option>
+                                </select>
+                                <strong>Postre</strong><br>
+                                <select class="form-control" name="alt_postre">
+                                    <option>Helado</option>
+                                    <option>Pastel</option>
+                                    <option>Flan</option>
+                                    <option>Gelatina</option>
+                                </select>
+                                <h1>Extras</h1>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Torta carne</span>
+                                        <span class="input-group-text" >Q10.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_carne">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Queso Amari..</span>
+                                        <span class="input-group-text" >Q6.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_quesoA">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Helado</span>
+                                        <span class="input-group-text" >Q7.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_helado">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Pastel</span>
+                                        <span class="input-group-text" >Q10.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_pastel">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Flan</span>
+                                        <span class="input-group-text" >Q8.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_flan">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Gelatina</span>
+                                        <span class="input-group-text" >Q3.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_gelatina">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Cliente</div>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Customer" name="text_customer" required>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Nit</div>
+                                        </div>
+                                        <input type="number" class="form-control"  placeholder="00000" name="text_taxId" required>
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="Generar Orden">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-30">
+                    <div class="price-item text-center popular">
+                        <div class="price-top">
+                            <img src="https://t2.rg.ltmcdn.com/es/images/3/7/1/img_ensalada_verde_14173_600_square.jpg" class="card-img-top"
+                                 alt="">
+                            <h4>Almuerzo 2</h4>
+                            <h2 class="mb-0"><sup>Q</sup>35</h2>
+                        </div>
+                        <div class="price-content">
+                            <ul class="border-bottom mb-30 mt-md-4 pb-3 text-left">
+                                <li th:each="lista : ${combo5}" >
+                                    <i class="zmdi zmdi-check mr-2"></i>
+                                    <span class="c-black" th:text="${lista}"></span>
+                                </li>
+                            </ul>
+                            <form method="post" th:action="@{/factura}"  name="menu5">
+                                <h1>Alternativas</h1>
+                                <input name="combo" type="hidden" value="Almuerzo 2">
+                                <strong>Ensalada</strong><br>
+                                <select class="form-control" name="alt_ensalada">
+                                    <option>Verde</option>
+                                    <option>Cesar</option>
+                                    <option>Asiatica</option>
+                                </select>
+                                <strong>Pollo</strong><br>
+                                <select class="form-control" name="alt_pollo">
+                                    <option>Frito</option>
+                                    <option>A la parrilla</option>
+                                </select>
+                                <strong>Sopa</strong><br>
+                                <select class="form-control" name="alt_sopa">
+                                    <option>Tomate</option>
+                                    <option>Frijol</option>
+                                </select>
+                                <strong>Bebida</strong><br>
+                                <select class="form-control" name="alt_bebida">
+                                    <option>Gaseosa</option>
+                                    <option>Te frio</option>
+                                    <option>Agua pura</option>
+                                </select>
+                                <h1>Extras</h1>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Torta carne</span>
+                                        <span class="input-group-text" >Q10.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_carne">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Queso Amari..</span>
+                                        <span class="input-group-text" >Q6.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_quesoA">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Helado</span>
+                                        <span class="input-group-text" >Q7.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_helado">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Pastel</span>
+                                        <span class="input-group-text" >Q10.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_pastel">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Flan</span>
+                                        <span class="input-group-text" >Q8.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_flan">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Gelatina</span>
+                                        <span class="input-group-text" >Q3.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_gelatina">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Cliente</div>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Customer" name="text_customer" required>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Nit</div>
+                                        </div>
+                                        <input type="number" class="form-control"  placeholder="00000" name="text_taxId" required>
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="Generar Orden">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="cena">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-5 mb-30">
+                    <div class="price-item text-center">
+                        <div class="price-top">
+                            <img src="https://fotos01.levante-emv.com/mmp/2019/04/16/1024x341/huevoscenas.jpg" class="card-img-top"
+                                 alt="">
+                            <h4>Cena 1</h4>
+                            <h2 class="mb-0"><sup>Q</sup>28</h2>
+                        </div>
+                        <div class="price-content">
+                            <ul class="border-bottom mb-30 mt-md-4 pb-3 text-left">
+                                <li th:each="lista : ${combo6}" >
+                                    <i class="zmdi zmdi-check mr-2"></i>
+                                    <span class="c-black" th:text="${lista}"></span>
+                                </li>
+                            </ul>
+                            <form method="post" th:action="@{/factura}"  name="menu1">
+                                <h1>Alternativas</h1>
+                                <input name="combo" type="hidden" value="Cena 1">
+                                <strong>Huevos</strong><br>
+                                <select class="form-control" name="alt_huevos" >
+                                    <option value="Omelette">Omelette</option>
+                                    <option value="Revueltos">Revueltos</option>
+                                    <option value="Estrellados">Estrellados</option>
+                                </select>
+                                <strong>Frijoles</strong><br>
+                                <select class="form-control"  name="alt_frijoles">
+                                    <option>Parados</option>
+                                    <option>Volteados</option>
+                                </select>
+                                <strong>Bebida</strong><br>
+                                <select class="form-control" name="alt_bebida">
+                                    <option>Cafe</option>
+                                    <option>Te</option>
+                                    <option>Jugo de naranja</option>
+                                </select>
+                                <h1>Extras</h1>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Huevos</span>
+                                        <span class="input-group-text" >Q1.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_huevos">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Frijoles</span>
+                                        <span class="input-group-text" >Q4.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_frijoles">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Platanos</span>
+                                        <span class="input-group-text" >Q4.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_platanos">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Crema</span>
+                                        <span class="input-group-text" >Q2.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_crema">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Queso</span>
+                                        <span class="input-group-text" >Q2.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_queso">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Pan</span>
+                                        <span class="input-group-text" >Q4.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_pan">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Tortillas</span>
+                                        <span class="input-group-text" >Q5.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_tortillas">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Jugo Na.</span>
+                                        <span class="input-group-text" >Q6.00</span>
+                                    </div>
+                                    <select class="form-control" name="extra_jugon">
+                                        <option th:each="i : ${#numbers.sequence(0, 5)}" th:value="${i}" th:text="${i}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Cliente</div>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Customer" name="text_customer" required>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">Nit</div>
+                                        </div>
+                                        <input type="number" class="form-control"  placeholder="00000" name="text_taxId" required>
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="Generar Orden">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <footer class="page-footer text-center font-small mdb-color darken-2 mt-4 wow fadeIn">
+
+        <!--Descargas-->
+        <div class="pt-4">
+
+        </div>
+        <!--/.Descargas-->
+
+        <hr class="my-4">
+
+        <!-- Social icons -->
+        <div class="pb-4">
+
+        </div>
+        <!-- Social icons -->
+
+        <!--Copyright-->
+        <div class="footer-copyright py-3">
+            © 2019 Copyright:
+            <a href="https://mdbootstrap.com/education/bootstrap/" target="_blank"> GuateFood.com </a>
+        </div>
+        <!--/.Copyright-->
+
+    </footer>
+</main>
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>

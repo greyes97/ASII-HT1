@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Factura</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light scrolling-navbar fixed-top">
+    <a class="navbar-brand" th:href="@{/menus}">
+        <img src="https://image.flaticon.com/icons/svg/747/747872.svg" width="35" height="35" class="d-inline-block align-top" alt="">
+        regresar
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Facturas <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">App</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Contacto
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Tutoriales</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Usuario</span>
+                    <span class="input-group-text"><strong th:text="${nameCashier}"></strong></span>
+                </div>
+            </div>
+        </form>
+    </div>
+</nav>
+
+<main class="mt-5 pt-5">
+
+
+        <div class="row justify-content-center align-items-center">
+                <div class="card w-50">
+                    <div class="card-header" style="text-align: center">
+                        Factura:
+                        <strong th:text="${order}" style="color: #ff0000"> </strong>
+                    </div>
+                    <div class="card-body text-center">
+                        <h6 class="card-title">Cajero: <a th:text="${nameCashier}"></a> </h6>
+                        <h6 class="card-title">Fecha/Hora: <a th:text="${date}"></a> </h6>
+                        <h6 class="card-title">Cliente: <a th:text="${nameCustomer}"></a> </h6>
+                        <h6 class="card-title">Nit: <a th:text="${taxId}"></a> </h6>
+                    </div>
+                    <div class="card-footer text-muted text-center">
+                        <div th:text="${combo}">
+                        </div>
+                    </div>
+                    <div class="card-body text-center">
+                        <h4>Menu </h4>
+                        <h6 th:each="list, stats : ${menu}"><a th:text="${list}"></a> </h6>
+                    </div>
+                    <hr class="my-1">
+                    <div class="card-body text-center">
+                        <h4>Extras</h4>
+                        <h6 th:each="list, stats : ${extras}"><a th:text="${list}"></a> </h6>
+                    </div>
+                    <div class="card-footer text-muted text-center">
+                        <div>
+                            <strong>Total: Q <a th:text="${total}"></a><a>.00</a></strong>
+
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted text-center">
+                        Descargar
+                    </div>
+                    <div class="card-body text-center">
+                        <form th:action="@{/descarga}" >
+                            <button type="submit" value="json" name="btn_file" class="btn btn-primary">
+                                <img src="https://image.flaticon.com/icons/svg/617/617517.svg" width="35" height="35" alt="">
+                            </button>
+                            <button type="submit" value="txt" name="btn_file" class="btn btn-warning">
+                                <img src="https://image.flaticon.com/icons/svg/337/337956.svg" width="35" height="35" alt="">
+                            </button>
+                            <button type="submit" value="csv" name="btn_file" class="btn btn-success">
+                                <img src="https://image.flaticon.com/icons/svg/617/617502.svg" width="35" height="35" alt="">
+                            </button>
+                            <button type="submit" value="xml" name="btn_file" class="btn btn-danger">
+                                <img src="https://image.flaticon.com/icons/svg/337/337959.svg" width="35" height="35" alt="">
+                            </button>
+                        </form>
+                    </div>
+                </div>
+        </div>
+
+    <footer class="page-footer text-center font-small mdb-color darken-2 mt-4 wow fadeIn">
+
+        <!--Descargas-->
+        <div class="pt-4">
+
+        </div>
+        <!--/.Descargas-->
+
+        <hr class="my-4">
+
+        <!-- Social icons -->
+        <div class="pb-4">
+
+        </div>
+        <!-- Social icons -->
+
+        <!--Copyright-->
+        <div class="footer-copyright py-3">
+            © 2019 Copyright:
+            <a href="https://mdbootstrap.com/education/bootstrap/" target="_blank"> GuateFood.com </a>
+        </div>
+        <!--/.Copyright-->
+
+    </footer>
+
+</main>
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>
