@@ -1,1 +1,4 @@
 Aqui deben de poner todos los diseños de los diagramas a utilizar.
+
+	####Fernando
+- El mokup ha sido creado (damos permiso al programador modificador con fines de mejoras o fines de optimizacion)
