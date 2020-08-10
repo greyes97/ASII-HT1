@@ -1,8 +1,8 @@
 package gt.com.antiguaburger.model;
 
 import gt.com.antiguaburger.controller.Controlador;
-import gt.com.antiguaburger.controller.IMenuDao;
-import gt.com.antiguaburger.controller.MenuDao;
+import gt.com.antiguaburger.model.IMenuDao;
+import gt.com.antiguaburger.model.MenuDao;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
